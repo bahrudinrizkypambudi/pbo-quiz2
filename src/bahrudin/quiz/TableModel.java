@@ -23,4 +23,8 @@ public class TableModel extends DefaultTableModel {
    public String[] getcolumnName(){
     return this.columns;
    }    
+
+    int getNamaKolom() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -1,5 +1,5 @@
 
-import java.util.ArrayList;
+import java.util.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author Bahrudin<bahrudinrizky313@gmai.com>
  */
 public class Transaksi {
+   
     private String code;
     private ArrayList<Item> items = new ArrayList<>();
     private float total;
@@ -51,8 +52,6 @@ public class Transaksi {
     }
 
     private void setTotal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
-    
-    
 }

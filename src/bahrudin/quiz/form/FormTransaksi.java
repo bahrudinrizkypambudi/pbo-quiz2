@@ -1,3 +1,4 @@
+import bahrudin.quiz.Item;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.DefaultComboBoxModel;
@@ -16,18 +17,18 @@ import javax.swing.table.DefaultTableModel;
  */
 public class FormTransaksi extends javax.swing.JFrame {
     
-    private int id = 0; 
-    private String code; 
-    private DefaultComboBoxModel cbModel; 
-    private DefaultTableModel tbModel;  
-    private final ArrayList<Item> cart = new ArrayList<>(); 
+    private int id = 0; //digunakan untuk memberikan nomor pada transaksi
+    private String code; //untuk menyimpan code transaksi
+    private DefaultComboBoxModel cbModel; //jComboBox model
+    private DefaultTableModel tbModel;  //jTable Model
+    private final ArrayList<Item> cart = new ArrayList<>();//menyimpan item yang dibeli 
 
     public FormTransaksi() {
-        TrxComboModel comboModel = new TrxComboModel();
-        this.cbModel = new DefaultComboBoxModel<>(comboModel.getNames().toArray()); 
+        ComboBoxModel cbModel = new ComboBoxModel(); //mengeset combobox item
+        this.cbModel = new DefaultComboBoxModel<>(cbModel.getNames().toArray()); 
         
-        TrxTableModel tableModel = new TrxTableModel(); 
-        this.tbModel = new DefaultTableModel(tableModel.getColumnName(), 0); 
+        TableModel tbModel = new TableModel(); //mengset nama kolom pada table transaksi
+        this.tbModel = new DefaultTableModel(tbModel.getcolumnName(), 0); 
         
         initComponents();
     }
@@ -232,7 +233,7 @@ public class FormTransaksi extends javax.swing.JFrame {
                 int jumlah = new Integer(tbModel.getValueAt(i, 2).toString());     
                 this.cart.add(new Item(nama, harga, jumlah));                      
             }
-            Transact Trx = new Transact(this.code, this.cart); 
+            Transaksi Trx = new Transaksi(this.code, this.cart); 
             StringBuilder str = new StringBuilder();
             str.append(Trx.prtDetail());
             JOptionPane.showMessageDialog(this, str, "Detil Transaksi", JOptionPane.INFORMATION_MESSAGE); 

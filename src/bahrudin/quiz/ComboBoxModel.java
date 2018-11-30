@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,5 +38,9 @@ public class ComboBoxModel {
         public void addItem(String name, float price){
             this.items.put(name, price);
        
+    }
+
+    Object getNama() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -9,52 +9,53 @@
  * @author Bahrudin<bahrudinrizky313@gmai.com>
  */
 public class Item {
-    private String name;
-    private float price;
-    private int qty;
+    private String nama;
+    private float harga;
+    private int jumlah;
 
     //konstruktor class Item
-    public Item(String name, float price, int qty) {
-        this.name = name;
-        this.price = price;
-        this.qty = qty;
+    public Item(String name, float price, int jumlah) {
+        this.nama = nama;
+        this.harga = harga;
+        this.jumlah = jumlah;
     }
     
-    //Getter name
-    public String getName() {
-        return name;
+    //Mengambil Nama
+    public String getNama() {
+        return nama;
     }
     
-    //Setter Name
-    public void setName(String name) {
-        this.name = name;
+    //meng-set Nama
+    public void setNama(String nama) {
+        this.nama = nama;
     }
     
-    //getter price 
-    public float getPrice() {
-        return price;
+    //mengambil harga 
+    public float getHarga() {
+        return harga;
     }
     
-    //Setter price
-    public void setPrice(float price) {
-        this.price = price;
+    //mengset Harga
+    public void setHarga(float harga) {
+        this.harga = harga;
     }
     
-    //Getter qty
-    public int getQty() {
-        return qty;
+    //mengambil total akhir
+    public int getJumlah() {
+        return jumlah;
     }
     
-    //Setter qty
-    public void setQty(int qty) {
-        this.qty = qty;
+    //Meng-set Jumlah
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
     }
     
+    //mengambil total khir
     public float getTotal(){
-        return this.price * this.qty;
+        return this.harga * this.jumlah;
     }
     
     public String toString(){
-        return this.name;
+        return "Item{"+"nama=" + nama + ",harga=" +harga+", jumlah =" +jumlah+'}';
     }
 }

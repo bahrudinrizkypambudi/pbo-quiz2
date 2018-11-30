@@ -12,15 +12,15 @@ import javax.swing.table.DefaultTableModel;
  * @author Bahrudin<bahrudinrizky313@gmai.com>
  */
 public class TableModel extends DefaultTableModel {
-        private String[] columns;
+        private  final String[] namaKolom;
 
    public TableModel(){
-    this.columns = new String[] {
+    this.namaKolom = new String[] {
         "Nama", "Harga", "Jumlah"
     };
    }
    
-   public String[] getcolumnName(){
-    return this.columns;
+   public String[] getnamaKolom(){
+    return this.namaKolom;
    }    
 }

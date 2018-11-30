@@ -19,19 +19,23 @@ public class Transaksi {
     private ArrayList<Item> items = new ArrayList<>();
     private float total;
 
-    public Transaksi(String code, float total) {
+    //konstraktor
+    public Transaksi(String code, ArrayList<Item> item) {
         this.code = code;
-        this.total = total;
+        this.items=item;
     }
     
+    //mengambil Item
     public ArrayList<Item> getItems(){
         return items;
     }
     
+    //meng-set Item yang akan dimasukan kedalam tabel
     public void setItems(ArrayList<Item> items){
         this.items = items;
     }
     
+    //mengambil total
     public float getTotal(){
         float totalAkhir = 0;
         for(Item item : this.items){
@@ -41,21 +45,25 @@ public class Transaksi {
         return 0;
     }
     
+    //meng-set total akhir
+    public void setTotal() {
+        float totalAkhir = 0;
+        for(Item item : this.items){
+            totalAkhir+=item.getTotal();
+        }
+        this.total=totalAkhir;
+    }
+    
+    //menampilkan detail transaksi menjadi popup window
     public String transDetail() { 
         setTotal();
         String str = "";
         str += "Kode\t\t: "+ this.code +"\n";
         str += "Daftar Belanja : \n";
         for(Item item : this.items) {
-            str += "\t"+ item.getNama() +"(x"+ item.getJumlah() +") : "+ item.getTotal() +"\n";
+            str += "\t"+ item.getName() +"(x"+ item.getQty() +") : "+ item.getTotal() +"\n";
         }
         str += "Total\t\t: "+ this.total;
         return str;
-    }
-
-    private void setTotal() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
+    } 
 }

@@ -52,19 +52,13 @@ public class Item {
         this.qty = qty;
     }
     
+    //mengambil total akhir
     public float getTotal(){
         return this.price * this.qty;
     }
-    
-    public String toString(){
-        return this.name;
-    }
 
-    String getNama() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    String getJumlah() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Override
+    public String toString() {
+        return "Item{" + "name=" + name + ", price=" + price + ", qty=" + qty + '}';
     }
 }

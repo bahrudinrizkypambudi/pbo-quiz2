@@ -1,4 +1,4 @@
-
+package bahrudin.quiz;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -20,11 +20,14 @@ public class TableModel extends DefaultTableModel {
     };
    }
    
+   //mengambil kolom pada tabel
    public String[] getcolumnName(){
     return this.columns;
    }    
 
-    int getNamaKolom() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    @Override
+    public String toString() {
+        return "TableModel("+"column="+columns;
     }
+   
 }

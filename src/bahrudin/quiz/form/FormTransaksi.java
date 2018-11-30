@@ -1,9 +1,14 @@
 import bahrudin.quiz.Item;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import bahrudin.quiz.ComboBoxModel;
+import bahrudin.quiz.TableModel;
+import bahrudin.quiz.Transaksi;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,7 +37,98 @@ public class FormTransaksi extends javax.swing.JFrame {
         
         initComponents();
     }
-
+   //menambahkan nomor baru 
+    private void incId(){
+        this.id += 1;
+    }
+    //manghapus / mengurangi nomor
+    private void decId(){
+        this.id -= 1;
+    }
+    
+    //mengset code transaksi yang sesuai dengan tanggal sekarang
+    private String setCode(){
+        this.incId();
+        String set = new SimpleDateFormat("yyMMdd").format(new Date());
+        this.code = String.format(set+"%02d",this.id);
+        return code;
+    }
+    
+    //menambah item pada tabel
+    private Object[] addItem(String nama, int jumlah){
+        float harga = 0;
+        ComboBoxModel item = new ComboBoxModel();
+        for(int i=0; i<item.getNames().size(); i++){
+            if(nama.equalsIgnoreCase(item.getNames().get(i))){
+                harga = item.getPrices().get(i);
+            }
+        }
+        Object[] obj={
+            nama,harga,jumlah
+        };
+        return obj;
+    }
+    
+    //mengupdate jumlah
+    private  void updateJumlah (String nama , int add) {
+        ArrayList<String> item = new ArrayList<> () ;
+        for (int i = 0; i < tbModel.getRowCount(); i++) {
+            item.add (tbModel.getValueAt (i , 0).toString()) ;
+        }
+        for (int i = 0; i < item.size(); i++) {
+            if (item.get(i).equals(nama)) {
+                int jumlah = new Integer (tbModel.getValueAt(i , 2).toString()) ;
+                tbModel.setValueAt (jumlah + add , i , 2) ;
+            }
+        }
+    }
+    //melakukan pengecekan apakah barang yang dipilih sudah ada pada tabel atau belum
+    private boolean isDuplicate (String nama){
+        boolean result = false ;
+        ArrayList <String> item = new ArrayList<>() ;
+        for (int i = 0; i < tbModel.getRowCount(); i++) {
+            item.add (tbModel.getValueAt(i, 0).toString()) ;
+        }
+        for (String i : item) {
+            if (i.equals(nama)) {
+                result = true ;
+            }
+        }
+        
+        return result ;
+    }
+    
+    //pengecekan apakah barrang kosong
+    private boolean isEmpty() {
+        return this.tblListItems.getRowCount() <= 0 ;
+    }
+    
+    //mendisable tombol save dan remove ketika tabel masih kosong
+    private void belanja() {
+        if (isEmpty()) {
+            this.btnSave.setEnabled(false) ;
+            this.btnRmv.setEnabled(false) ;
+        } else {
+            this.btnSave.setEnabled(true) ;
+            this.btnRmv.setEnabled(true) ;
+        }
+    }
+        
+    //melakukan transaksi baru ketika transaksi sebelumnya telah sukses
+     private void transaksiBaru () {
+        this.txtJml.setText(" ") ;
+        this.txtCode.setText(" ") ;
+        this.btnNew.setEnabled(true) ;
+        this.btnSave.setEnabled(false) ;
+        this.btnCncl.setEnabled(false) ;
+        this.btnAdd.setEnabled(false) ;
+        this.btnRmv.setEnabled(false) ;
+        this.btnRmv.setEnabled(false) ;
+        this.txtJml.setEnabled(false) ;
+        this.comboItems.setEnabled(false) ;
+        this.tbModel.setRowCount(0) ;
+        this.cart.clear() ;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,17 +199,7 @@ public class FormTransaksi extends javax.swing.JFrame {
             }
         });
 
-        tblListItems.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Nama", "Harga", "Jumlah"
-            }
-        ));
+        tblListItems.setModel(this.tbModel);
         jScrollPane1.setViewportView(tblListItems);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,7 +265,7 @@ public class FormTransaksi extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+//penambahan action pada button new
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         this.txtJml.setText("1");
         this.btnNew.setEnabled(false);
@@ -193,24 +279,24 @@ public class FormTransaksi extends javax.swing.JFrame {
     private void comboItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboItemsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_comboItemsActionPerformed
-
+//menambahkan action pada button cancel
     private void btnCnclActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCnclActionPerformed
-        TransBaru();
-        this.kurangID;
+        transaksiBaru();
+        this.decId();
     }//GEN-LAST:event_btnCnclActionPerformed
-
+//menambahkan action pada button add
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String nama = this.comboItems.getSelectedItem().toString(); 
         int jumlah = new Integer(this.txtJml.getText()); 
-        if(cekBrgSudahAda(nama)) { 
+        if(isDuplicate(nama)) { 
    
             updateJumlah(nama, jumlah);
         } else {
             tbModel.addRow(addItem(nama, jumlah));
         }
-        this.cekitem();
+        this.belanja();
     }//GEN-LAST:event_btnAddActionPerformed
-
+//menambahkan action pada button remove
     private void btnRmvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRmvActionPerformed
        if(tblListItems.getSelectedRow()<0) { 
             String str = "Pilih item yang ingin dihapus !"; 
@@ -221,23 +307,24 @@ public class FormTransaksi extends javax.swing.JFrame {
                 tbModel.removeRow(tblListItems.getSelectedRow());
             }
         
-        this.cekitem();
+        this.belanja();
     }                                      
     }//GEN-LAST:event_btnRmvActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try {
+        try { //loop setiap tabel
             for (int i = 0; i < tbModel.getRowCount(); i++) {                   
-                String nama = tbModel.getValueAt(i, 0).toString();              
+                String nama = tbModel.getValueAt(i, 0).toString();  //menyiapkan nama dan jumlah menjadi variable            
                 float harga = new Float(tbModel.getValueAt(i, 1).toString());   
                 int jumlah = new Integer(tbModel.getValueAt(i, 2).toString());     
-                this.cart.add(new Item(nama, harga, jumlah));                      
+                this.cart.add(new Item(nama, harga, jumlah));
             }
-            Transaksi Trx = new Transaksi(this.code, this.cart); 
-            StringBuilder str = new StringBuilder();
-            str.append(Trx.prtDetail());
-            JOptionPane.showMessageDialog(this, str, "Detil Transaksi", JOptionPane.INFORMATION_MESSAGE); 
-            newTrx(); 
+            //instansiasi kelas transaksi dengan kode dengan commited belanja
+            Transaksi transaksi = new Transaksi(this.code, this.cart);
+            StringBuilder toSrting = new StringBuilder();
+            toSrting.append(transaksi.transDetail()); //memanggil dialog dengan StringBuilder
+            JOptionPane.showMessageDialog(this, toSrting, "Information", JOptionPane.INFORMATION_MESSAGE);
+            transaksiBaru(); 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -293,3 +380,4 @@ public class FormTransaksi extends javax.swing.JFrame {
     private javax.swing.JTextField txtJml;
     // End of variables declaration//GEN-END:variables
 }
+    

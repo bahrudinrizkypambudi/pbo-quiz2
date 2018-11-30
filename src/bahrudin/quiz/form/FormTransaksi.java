@@ -74,7 +74,7 @@ public class FormTransaksi extends javax.swing.JFrame {
         ArrayList<String> item = new ArrayList<> () ;
         for (int i = 0; i < tbModel.getRowCount(); i++) {
             item.add (tbModel.getValueAt (i , 0).toString()) ;
-        }
+        } 
         for (int i = 0; i < item.size(); i++) {
             if (item.get(i).equals(nama)) {
                 int jumlah = new Integer (tbModel.getValueAt(i , 2).toString()) ;
